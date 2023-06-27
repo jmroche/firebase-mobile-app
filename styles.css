@@ -71,3 +71,8 @@ button{
     font-family: "Rubik", sans-serif;
     max-width: 120px;
   }
+
+  ul li:active{
+    text-decoration:line-through;
+    
+  }

@@ -23,7 +23,7 @@ const app = initializeApp(dbSettings)
 // get the DB
 const db = getDatabase(app);
 
-// Create refwerence point (i.e., DB document)
+// Create reference point (i.e., DB document)
 const shoppingListInDB = ref(db, "shoppingList");
 // **************************** Firebase DB Setup ****************************
 
@@ -43,10 +43,11 @@ addItemsButton.addEventListener("click", () => {
 onValue(shoppingListInDB, (snapshot) => {
     // console.log(`Items in DB: ${snapshot.val()}`);
     clearULList();
-    if (snapshot.val() != null && snapshot.val() != undefined && Object.keys(snapshot.val()).length > 0) {
+    // if (snapshot.val() != null && snapshot.val() != undefined && Object.keys(snapshot.val()).length > 0) {
+        if (snapshot.exists()){
         for (const [key, value] of Object.entries(snapshot.val())) {
-            console.log(`${key}: ${value}`);
-            appendToShoppingList(value);
+            // console.log(`${key}: ${value}`);
+            appendToShoppingList(key, value);
         }
     }
     else{
@@ -59,9 +60,20 @@ onValue(shoppingListInDB, (snapshot) => {
  
 });
 
-function appendToShoppingList(item) {
+function appendToShoppingList(itemId, itemValue) {
     let itemsUL = document.getElementById("shopping-list");
-    itemsUL.innerHTML += `<li>${item}</li>`
+    // itemsUL.innerHTML += `<li>${item}</li>`
+    let newElement = document.createElement("li");
+    newElement.innerText = itemValue;
+    newElement.setAttribute("id", itemId)
+    itemsUL.appendChild(newElement);
+    newElement.addEventListener("click", (event) => {
+        console.log(event.target.id);
+        let itemLocationinDB = ref(db, `shoppingList/${event.target.id}`);
+        remove(itemLocationinDB); // Remove from Firebase DB
+    
+    })
+
 }
 
 function clearInputFieldItems(){
@@ -72,4 +84,9 @@ function clearInputFieldItems(){
 function clearULList(){
     let itemsUL = document.getElementById("shopping-list");
     itemsUL.innerHTML = "";
+}
+
+
+function deleteItemfromDB(itemId){
+    remove(shoppingListInDB, itemId)
 }
