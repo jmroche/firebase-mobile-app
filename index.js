@@ -52,6 +52,9 @@ onValue(shoppingListInDB, (snapshot) => {
     }
     else{
         console.log("No items in DB");
+        let itemsUL = document.getElementById("shopping-list");
+        itemsUL.innerHTML = "No items here...yet"
+
     
     }
     

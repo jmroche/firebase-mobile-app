@@ -3,6 +3,7 @@ html, body{
     padding: 0 ;
     font-family: "Rubik", sans-serif;
     background-color: #EEF0F4;
+    color: #432000
 }
 
 .container{
@@ -41,8 +42,17 @@ button{
 }
 
 #add-item-button:hover {
-    color: rgba(255, 255, 255, 1);
-    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+    /* color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4); */
+    background-color: #432000;
+    cursor: pointer;
+  }
+
+  ul li:hover {
+    /* color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4); */
+    background-color: #FFECC7;
+    cursor: pointer;
   }
 
 
