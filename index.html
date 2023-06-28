@@ -18,22 +18,37 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
         <link rel="manifest" href="/images/favicon/site.webmanifest">
+        <script src="index.js" type="module"></script>
     </head>
     <body>
-        <div class="container">
+        
+        <div class="container" id="main-app">
             <img src="./images/grocery-basket.png" alt="Grocery Basket">
             <input type="text" name="Item" id="item-input" placeholder="Bread">
             <button id="add-item-button">Add to List</button>
+            <button id="signout-button">Sign Out</button>
+            <div class="container" id="items-list">
+                <ul id="shopping-list">
+                    <!-- <li>Oranges</li>
+                    <li>Apples</li>
+                </ul> -->
+    
+            </div>
         </div>
 
-        <div class="container" id="items-list">
-            <ul id="shopping-list">
-                <!-- <li>Oranges</li>
-                <li>Apples</li>
-            </ul> -->
-
+        <div id="auth-form">
+            <img src="./images/grocery-basket.png" alt="Grocery Basket">
+            <h2>Welcome to the Shopping List App</h2>
+            <p>Login / Signup</p>
+            <input type="email" name="Email" id="user-email" placeholder="Email">
+            <input type="password" name="Password" id="user-password" placeholder="Password">
+            <label id="alert-label"></label>
+            <button id="login-button">Login</button>
+            <button id="signup-button">Signup</button>
         </div>
 
-        <script src="index.js" type="module"></script>
+        
+
+        
     </body>
 </html>
