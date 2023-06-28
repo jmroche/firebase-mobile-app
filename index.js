@@ -95,7 +95,6 @@ const userLogIn = async() => {
     signInWithEmailAndPassword(auth, signInEmail, signInPassword)
     .then((userCredential) => {
         const user = userCredential.user;
-        // alert("You have signed in successfully!");
         setTimeout(() => {
             checkAuthState();
         }, 3000);
@@ -116,7 +115,6 @@ const userLogIn = async() => {
             }, 3000);
             loginButton.style.display = "none";
 
-            // alert("Wrong password!");
         }
 
         if (errorCode == "auth/wrong-password"){
@@ -167,13 +165,12 @@ addItemsButton.addEventListener("click", () => {
     push(ref(db, `users/${auth.currentUser.uid}/shoppingList`), itemsInputValue);
     console.log(`${itemsInputValue} added to database`);
 
-    // appendToShoppingList(itemsInputValue)
     clearInputFieldItems();
     
 
 });
 
-// let currentLoggedinUserId = "";
+
 
 let getCurrentUSer = async() => {
 onAuthStateChanged(auth, user => {
@@ -186,7 +183,6 @@ onAuthStateChanged(auth, user => {
             // if (snapshot.val() != null && snapshot.val() != undefined && Object.keys(snapshot.val()).length > 0) {
                 if (snapshot.exists()){
                 for (const [key, value] of Object.entries(snapshot.val())) {
-                    // console.log(`${key}: ${value}`);
                     appendToShoppingList(key, value);
                 }
             }
