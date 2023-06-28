@@ -7,12 +7,25 @@ html, body{
     user-select: none;
 }
 
+p, h2{
+    font-family: "Rubik", sans-serif;
+    text-align: center;
+    margin: 10px auto;
+}
+
 .container{
  display: flex;
  flex-direction: column;
  max-width: 320px;
  margin: 30px auto;
 }
+
+#auth-form{
+    display: none;
+    flex-direction: column;
+    max-width: 320px;
+    margin: 30px auto;
+   }
 
 img{
     width: 150px;
@@ -40,9 +53,10 @@ button{
     font-size: 20px;
     text-align: center;
     font-family: "Rubik", sans-serif;
+    margin: 10px 0;
 }
 
-#add-item-button:hover {
+button:hover {
     /* color: rgba(255, 255, 255, 1);
     box-shadow: 0 5px 15px rgba(145, 92, 182, .4); */
     background-color: #432000;
@@ -86,4 +100,16 @@ button{
   ul li:active{
     text-decoration:line-through;
     
+  }
+
+  #alert-label{
+    font-size: 12px;
+    font-family: "Rubik", sans-serif;
+    color: red;
+    text-align: center;
+  }
+
+
+  #main-app{
+    display: none;
   }
