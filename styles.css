@@ -21,7 +21,7 @@ p, h2{
 }
 
 #auth-form{
-    display: flex;
+    display: none;
     flex-direction: column;
     max-width: 320px;
     margin: 30px auto;
@@ -107,4 +107,9 @@ button:hover {
     font-family: "Rubik", sans-serif;
     color: red;
     text-align: center;
+  }
+
+
+  #main-app{
+    display: none;
   }

@@ -30,7 +30,6 @@ const itemsInput = document.getElementById("item-input");
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    // mainApp.style.display = "none";
     checkAuthState();
     clearULList();
 })
@@ -97,6 +96,10 @@ const userLogIn = async() => {
     .then((userCredential) => {
         const user = userCredential.user;
         // alert("You have signed in successfully!");
+        setTimeout(() => {
+            checkAuthState();
+        }, 3000);
+        
         location.href = location.href;
     })
     .catch((error) => {
@@ -131,12 +134,12 @@ const checkAuthState = async() => {
     onAuthStateChanged(auth, user => {
         if(user) {
             authForm.style.display = "none";
-            mainApp.style.display = "block flex";
+            mainApp.style.display = "flex";
+  
         }
         else {
+            authForm.style.display = "flex";
             mainApp.style.display = "none";
-            authForm.style.display = "block flex";
-            
             
         }   
     })
@@ -148,7 +151,7 @@ const userSignOut = async() => {
     location.href = location.href;
 }
 
-// checkAuthState();
+checkAuthState();
 
 signupButton.addEventListener('click', userSignUp);
 loginButton.addEventListener('click', userLogIn);
