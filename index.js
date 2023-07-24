@@ -160,12 +160,19 @@ signOutButton.addEventListener('click', userSignOut);
 addItemsButton.addEventListener("click", () => {
     let itemsInputValue = itemsInput.value;
 
-    console.log(itemsInputValue);
+    // console.log(itemsInputValue);
     // push(shoppingListInDB, itemsInputValue);
-    push(ref(db, `users/${auth.currentUser.uid}/shoppingList`), itemsInputValue);
+    const itemKey = push(child(ref(db, `users/${auth.currentUser.uid}/shoppingList`), itemsInputValue)).key;
+    const itemRef = ref(db, `users/${auth.currentUser.uid}/shoppingList/${itemKey}`)
+    update(itemRef, {
+        "itemName": itemsInputValue,
+        "removeItemCounter": 0
+    })
+
     console.log(`${itemsInputValue} added to database`);
 
     clearInputFieldItems();
+    itemsInput.focus();
     
 
 });
@@ -175,16 +182,25 @@ addItemsButton.addEventListener("click", () => {
 let getCurrentUSer = async() => {
 onAuthStateChanged(auth, user => {
     if (user) {
-        console.log(user.uid);
+        // console.log(user.uid);
         let itemUserList = ref(db, `users/${user.uid}/shoppingList`);
         onValue(itemUserList, (snapshot) => {
-            console.log(`Items in DB: ${snapshot.val()}`);
             clearULList();
             // if (snapshot.val() != null && snapshot.val() != undefined && Object.keys(snapshot.val()).length > 0) {
                 if (snapshot.exists()){
                 for (const [key, value] of Object.entries(snapshot.val())) {
-                    appendToShoppingList(key, value);
+                    appendToShoppingList(key, value["itemName"]);
+                    // check the itemCounter and update the CSS style accordignly
+                    if (value["removeItemCounter"] > 0) {
+                        const itemElement = document.getElementById(key);
+                        itemElement.style.textDecoration = "line-through";
+                    }
+                    else{
+
+                    }
+
                 }
+        
             }
             else{
                 console.log("No items in DB");
@@ -201,11 +217,14 @@ onAuthStateChanged(auth, user => {
             newElement.setAttribute("id", itemId)
             itemsUL.appendChild(newElement);
             newElement.addEventListener("click", (event) => {
-                console.log(event.target.id);
-                let itemLocationinDB = ref(db, `users/${user.uid}/shoppingList/${event.target.id}`);
-                remove(itemLocationinDB); // Remove from Firebase DB
-            
+                // console.log(event.target.id);
+                const itemLocationinDB = ref(db, `users/${user.uid}/shoppingList/${event.target.id}`);
+                const itemKey = ref(db, `users/${user.uid}/shoppingList/${event.target.id}`).key
+                // Mark for delettion or delete the item from the DB
+                deleteItemfromDB(itemKey, itemLocationinDB);
+
             })
+
         
         }
 
@@ -231,6 +250,33 @@ function clearULList(){
 }
 
 
-function deleteItemfromDB(itemId){
-    remove(shoppingListInDB, itemId)
+function deleteItemfromDB(itemKey, itemRef){
+    // Get the item reference from DB and update the removeItemCounter or delete the item from DB
+    get(itemRef)
+    .then((snapshot) => {
+        if (snapshot.exists()){
+            const itemData = snapshot.val();
+            let removeItemCounter = itemData["removeItemCounter"];
+
+            if (removeItemCounter < 1) {
+                removeItemCounter ++;
+
+                update(itemRef, {
+                    "removeItemCounter": removeItemCounter
+                })
+                
+            }
+            else{
+                remove(itemRef);
+                console.log(`Item ${itemKey} removed from DB`);
+            }
+
+        }
+    })
+    .catch((error) => {
+        console.log(error);
+    
+    })
+    
+   
 }
